@@ -30,7 +30,9 @@ import java.io.IOException;
 import org.apache.pdfbox.text.PDFTextStripper;*/
 
 
-/* Before running the code, make sure you have JavaFX and PDFBox.
+/* 
+ * Originally, we were going to use PDFBox to read PDFs but we are unsure if we allowed to use PDF.
+ * We are now only using txt files until we are sure that we can use other libraries.
  * PDFBox is a library to open up pdfs. */
 
 public class Main extends Application {
@@ -162,7 +164,6 @@ public class Main extends Application {
 
 	public static void main(String[] args) throws IOException {
 		launch(args); // Set up program as javaFX application
-
 	}
 
 }

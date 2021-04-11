@@ -26,11 +26,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.text.PDFTextStripper;
+/*import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;*/
+
 
 /* Before running the code, make sure you have JavaFX and PDFBox.
  * PDFBox is a library to open up pdfs. */
+
 public class Main extends Application {
 
 	Stage window;
@@ -66,7 +68,7 @@ public class Main extends Application {
 				boolean success = false;
 				if (db.hasFiles()) {
 					String fileName = db.getFiles().toString().replaceAll("(^\\[|\\]$)", "");
-					if(fileName.substring(fileName.length()-3).matches("pdf") || fileName.substring(fileName.length()-3).matches("txt"))
+					if(fileName.substring(fileName.length()-3).matches("txt"))
 					{
 						File file = new File(fileName);
 						dropped.setText(db.getFiles().toString());

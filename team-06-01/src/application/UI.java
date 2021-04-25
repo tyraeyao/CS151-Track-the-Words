@@ -172,7 +172,7 @@ public class UI extends Application{
 			        tableView.getColumns().add(column2);
 			        
 			        // Fill the tableView with our lists
-			        for(int i = 1; i < words.getEnglishWords().size()-1; i++) {
+			        for(int i = 0; i <= words.getEnglishWords().size()-1; i++) {
 			        	tableView.getItems().add(new Words(words.getEnglishWords().get(i), words.getTransWords().get(i)));
 			        }
 			        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

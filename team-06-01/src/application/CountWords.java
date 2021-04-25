@@ -20,7 +20,7 @@ public class CountWords{
 		if(text == null)
 			return;
 		// Gets the text from the dragged file and removes all special characters and lowercase it
-		for(int i = 0; i < text.length; i++) {
+		for(int i = 0; i <= text.length-1; i++) {
 			unsortedList.add(text[i].replaceAll("[^a-zA-Z0-9\\s]", "").toLowerCase());
 		}
 		sameWord();
@@ -47,7 +47,7 @@ public class CountWords{
 		String temp = "";
 		words.wordsTranslatedList.clear();
 		// Gets the english words and translates and store in new list
-		for(int i = 0; i < words.wordsEnglishList.size(); i++) {
+		for(int i = 0; i <= words.wordsEnglishList.size()-1; i++) {
 			// cbValue from the choice box from UI class
 			temp = Translator.translate("en", UI.cbValue, words.wordsEnglishList.get(i));
 			words.setTranslated(temp);

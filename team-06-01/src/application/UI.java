@@ -1,6 +1,7 @@
 package application;
 
 import java.io.BufferedReader;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class UI extends Application{
@@ -142,48 +144,50 @@ public class UI extends Application{
 		ProgressBar progressBar = new ProgressBar();
 		Button buttonLy2 = new Button("Translate");
 		buttonLy2.setStyle("-fx-border-color: black; -fx-font-size: 16;");
-		buttonLy2.setOnAction(new EventHandler<ActionEvent>() {
-			TableView<Words> tableView = new TableView();
-		    @Override public void handle(ActionEvent e) {
-		    	try {
-		    		if(choiceBox == null)
-		    			return;
-					CountWords.storeTranslatedWord();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-		    	//CountWords.printTranslatedWord();
-		        
-		    	
-		    	// Creating TableView with two columns
-		        TableColumn<Words, Words> column1 = new TableColumn<>("English");
-		        column1.setCellValueFactory(new PropertyValueFactory<>("english"));
-		        TableColumn<Words, Words> column2 = new TableColumn<>("Translated");
-		        column2.setCellValueFactory(new PropertyValueFactory<>("translated"));
-		        
-		        tableView.getColumns().clear();
-		    	
-		        tableView.getColumns().add(column1);
-		        tableView.getColumns().add(column2);
-		        
-		        // Fill the tableView with our lists
-		        for(int i = 1; i < words.getEnglishWords().size()-1; i++) {
-		        	tableView.getItems().add(new Words(words.getEnglishWords().get(i), words.getTransWords().get(i)));
-		        }
-		        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-				//ObservableList<String> obvList = FXCollections.observableArrayList(words.getTransWords());
-				//ListView<String> listView = new ListView<String>(obvList);
-				//listView.setMaxSize(200, 160);
-				//Creating layout
-				VBox vBoxLayout = new VBox(10);
-				vBoxLayout.setStyle("-fx-border-color: black; -fx-font-size: 16;");
-				vBoxLayout.getChildren().add(tableView);
-				vBoxLayout.setStyle("-fx-background-color: BEIGE");
-				leftUI.add(vBoxLayout, 0, 1, 1, 1);
-		    }
-		});
+			buttonLy2.setOnAction(new EventHandler<ActionEvent>() {
+				TableView<Words> tableView = new TableView();
+			    @Override public void handle(ActionEvent e) {
+			    	try {
+			    		if(choiceBox.getValue() == "Choose A Language") {
+			    			popupErrorMsg();
+			    			return;
+			    		}
+						CountWords.storeTranslatedWord();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+			    	//CountWords.printTranslatedWord();
+			        
+			    	
+			    	// Creating TableView with two columns
+			        TableColumn<Words, Words> column1 = new TableColumn<>("English");
+			        column1.setCellValueFactory(new PropertyValueFactory<>("english"));
+			        TableColumn<Words, Words> column2 = new TableColumn<>("Translated");
+			        column2.setCellValueFactory(new PropertyValueFactory<>("translated"));
+			        
+			        tableView.getColumns().clear();
+			    	
+			        tableView.getColumns().add(column1);
+			        tableView.getColumns().add(column2);
+			        
+			        // Fill the tableView with our lists
+			        for(int i = 1; i < words.getEnglishWords().size()-1; i++) {
+			        	tableView.getItems().add(new Words(words.getEnglishWords().get(i), words.getTransWords().get(i)));
+			        }
+			        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+	
+					//ObservableList<String> obvList = FXCollections.observableArrayList(words.getTransWords());
+					//ListView<String> listView = new ListView<String>(obvList);
+					//listView.setMaxSize(200, 160);
+					//Creating layout
+					VBox vBoxLayout = new VBox(10);
+					vBoxLayout.setStyle("-fx-border-color: black; -fx-font-size: 16;");
+					vBoxLayout.getChildren().add(tableView);
+					vBoxLayout.setStyle("-fx-background-color: BEIGE");
+					leftUI.add(vBoxLayout, 0, 1, 1, 1);
+			    }
+			});
 		// ChoiceBox 1 for Language choosing
 		String[] languageArray = { "Afrikaans", "Albanian", "Amharic", "Arabic", "Armenian", "Azerbaijani", "Basque",
 				"Belarusian", "Bengali", "Bosnian", "Bulgarian", "Catalan", "Cebuano", "Chinese (Simplified)",
@@ -234,7 +238,7 @@ public class UI extends Application{
 		
 		layout2.setRight(rightUI);
 		layout2.setLeft(leftUI);
-		
+		System.out.println(choiceBox.getValue());
 		return layout2;
 	}
 	
@@ -258,5 +262,26 @@ public class UI extends Application{
 		button1.setOnAction(e -> window.setScene(scene2));
 		return layout1;
 	}
+	
+    public void popupErrorMsg() {
+        final Stage myDialog = new Stage();
+        myDialog.initModality(Modality.APPLICATION_MODAL);
+        Label popUpText = new Label();
+        popUpText.setText("Choose a Language");
+        Button okButton = new Button("Ok");
+        okButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent arg0) {
+                myDialog.close();
+            }
+        });
+        VBox popUp = new VBox();
+        popUp.setAlignment(Pos.CENTER);
+        popUp.getChildren().addAll(popUpText,okButton);
+        Scene myDialogScene = new Scene(popUp,100,100);
+        
+        myDialog.setScene(myDialogScene);
+        myDialog.show();
+    }
 	
 }

@@ -45,6 +45,7 @@ public class UI extends Application{
 	private Stage window;
 	static Words words = new Words();
 	static String cbValue = "en";
+	static CountWords countwords;
 	
 	public void start(Stage primaryStage) throws Exception{
 		window = primaryStage;
@@ -141,11 +142,12 @@ public class UI extends Application{
 		ChoiceBox<String> choiceBox = new ChoiceBox<>();
 		GridPane leftUI = new GridPane();
 		leftUI.add(dragTarget(), 0, 0, 1, 1);
-		ProgressBar progressBar = new ProgressBar();
 		Button buttonLy2 = new Button("Translate");
 		buttonLy2.setStyle("-fx-border-color: black; -fx-font-size: 16;");
+		Button buttonLy3 = new Button("Translate Word!");
+		buttonLy3.setStyle("-fx-border-color: black; -fx-font-size: 16;");
 			buttonLy2.setOnAction(new EventHandler<ActionEvent>() {
-				TableView<Words> tableView = new TableView();
+				TableView<Words> tableView = new TableView<Words>();
 			    @Override public void handle(ActionEvent e) {
 			    	try {
 			    		if(choiceBox.getValue() == "Choose A Language") {
@@ -161,20 +163,29 @@ public class UI extends Application{
 			        
 			    	
 			    	// Creating TableView with two columns
-			        TableColumn<Words, Words> column1 = new TableColumn<>("English");
-			        column1.setCellValueFactory(new PropertyValueFactory<>("english"));
-			        TableColumn<Words, Words> column2 = new TableColumn<>("Translated");
-			        column2.setCellValueFactory(new PropertyValueFactory<>("translated"));
+			        TableColumn<Words, Words> column1 = new TableColumn<Words, Words>("English");
+			        column1.setCellValueFactory(new PropertyValueFactory<Words, Words>("english"));
+			        TableColumn<Words, Words> column2 = new TableColumn<Words, Words>("Translated");
+			        column2.setCellValueFactory(new PropertyValueFactory<Words, Words>("translated"));
+			        TableColumn<Words, Words> column3 = new TableColumn<Words, Words>("Number of Words");
+			        column3.setCellValueFactory(new PropertyValueFactory<Words, Words>("number"));
+			        
 			        
 			        tableView.getColumns().clear();
 			    	
 			        tableView.getColumns().add(column1);
 			        tableView.getColumns().add(column2);
-			        
+			        tableView.getColumns().add(column3);
+			       // ObservableList<Words> data = null;
 			        // Fill the tableView with our lists
 			        for(int i = 0; i <= words.getEnglishWords().size()-1; i++) {
-			        	tableView.getItems().add(new Words(words.getEnglishWords().get(i), words.getTransWords().get(i)));
+			        	System.out.println(words.getNumberList().get(i));
+			        	tableView.getItems().add(new Words(words.getEnglishWords().get(i), words.getTransWords().get(i), words.getNumberList().get(i)));
+			        	//data = FXCollections.observableArrayList(
+			        			//new Words(words.getEnglishWords().get(i), words.getTransWords().get(i), words.getNumberList().get(i))
+			        			//);
 			        }
+			        //tableView.setItems(data);
 			        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	
 					//ObservableList<String> obvList = FXCollections.observableArrayList(words.getTransWords());

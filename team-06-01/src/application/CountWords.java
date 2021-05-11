@@ -22,6 +22,7 @@ public class CountWords{
 		// Gets the text from the dragged file and removes all special characters and lowercase it
 		for(int i = 0; i <= text.length-1; i++) {
 			unsortedList.add(text[i].replaceAll("[^a-zA-Z0-9\\s]", "").toLowerCase());
+			//Words.numberWords.add(i, i++);
 		}
 		sameWord();
 	}
@@ -30,10 +31,13 @@ public class CountWords{
 		Set<String> unique = new HashSet<String>(unsortedList);
 		
 		for(String key : unique) {
-			//System.out.println(key + ": " + Collections.frequency(unsortedList, key));
+			System.out.println(key + ": " + Collections.frequency(unsortedList, key));
+			words.setNum(Collections.frequency(unsortedList, key));
+			words.addToNumberList();
 			// If there is a common word, it won't be sent to the new list
 			words.setEnglish(key);
 			words.addToEnglishList();
+			
 		}
 	}
 	

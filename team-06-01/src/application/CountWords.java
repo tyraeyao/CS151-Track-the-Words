@@ -16,13 +16,13 @@ public class CountWords{
 	static List<String> unsortedList = new ArrayList<String>();
 	static Words words = new Words();
 	static UI ui = new UI();
+	
 	public static void storeWords(String[] text) {
 		if(text == null)
 			return;
-		// Gets the text from the dragged file and removes all special characters and lowercase it
+		// Gets the text from the dragged file and removes all special characters and lower case it
 		for(int i = 0; i <= text.length-1; i++) {
 			unsortedList.add(text[i].replaceAll("[^a-zA-Z0-9\\s]", "").toLowerCase());
-			//Words.numberWords.add(i, i++);
 		}
 		sameWord();
 	}
@@ -59,12 +59,5 @@ public class CountWords{
 		}
 	}
 	
-//	public static void printTranslatedWord() {
-//		//System.out.println(newLanguageList);
-//		for(int i = 0; i < words.wordsEnglishList.size(); i++) {
-//			//System.out.println(newList.get(i) + " = " + newLanguageList.get(i));
-//			System.out.println(words.wordsTranslatedList.get(i));
-//		}
-//	}
 	
 }

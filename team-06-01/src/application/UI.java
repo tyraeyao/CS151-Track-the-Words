@@ -68,6 +68,8 @@ public class UI extends Application{
 		dragTarget.setStyle("-fx-border-color: black; -fx-font-size: 16; -fx-background-color: white");
 		dragTarget.setMinSize(518, 5);
 		dragTarget.getChildren().addAll(label, dropped, fileText);
+		
+		
 		dragTarget.setOnDragOver(new EventHandler<DragEvent>() {
 			@Override
 			public void handle(DragEvent event) {
@@ -80,7 +82,6 @@ public class UI extends Application{
 		});
 
 		dragTarget.setOnDragDropped(new EventHandler<DragEvent>() {
-
 			@Override
 			// Checking what the user dragged into and printing if the file is a txt file
 			public void handle(DragEvent event) {
@@ -90,7 +91,8 @@ public class UI extends Application{
 				String[] splitStr = null;
 				if (db.hasFiles()) {
 					String fileName = db.getFiles().toString().replaceAll("(^\\[|\\]$)", "");
-					if(fileName.substring(fileName.length()-3).matches("txt")) // If the file is not a txt file it will not work. It has to have the .txt extension at the end
+					// If the file is not a txt file it will not work. It has to have the .txt extension at the end
+					if(fileName.substring(fileName.length()-3).matches("txt")) 
 					{
 						File file = new File(fileName);
 						dropped.setText(db.getFiles().toString());
@@ -111,14 +113,10 @@ public class UI extends Application{
 								}
 								CountWords.storeWords(splitStr);
 							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								System.out.println("Not Txt file");
 							}
 						}
 					}
 					else {
-						System.out.println(fileName.substring(fileName.length()-3));
-						System.out.println("Not a txt file");
 						dropped.setText("Not a txt file");
 						fileText.setText("");
 					}
@@ -159,38 +157,27 @@ public class UI extends Application{
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-			    	//CountWords.printTranslatedWord();
-			        
-			    	
-			    	// Creating TableView with two columns
+
+			    	// Creating TableView with three columns
 			        TableColumn<Words, Words> column1 = new TableColumn<Words, Words>("English");
 			        column1.setCellValueFactory(new PropertyValueFactory<Words, Words>("english"));
 			        TableColumn<Words, Words> column2 = new TableColumn<Words, Words>("Translated");
 			        column2.setCellValueFactory(new PropertyValueFactory<Words, Words>("translated"));
 			        TableColumn<Words, Words> column3 = new TableColumn<Words, Words>("Number of Words");
 			        column3.setCellValueFactory(new PropertyValueFactory<Words, Words>("number"));
-			        
-			        
+			       
 			        tableView.getColumns().clear();
 			    	
 			        tableView.getColumns().add(column1);
 			        tableView.getColumns().add(column2);
 			        tableView.getColumns().add(column3);
-			       // ObservableList<Words> data = null;
 			        // Fill the tableView with our lists
 			        for(int i = 0; i <= words.getEnglishWords().size()-1; i++) {
 			        	System.out.println(words.getNumberList().get(i));
 			        	tableView.getItems().add(new Words(words.getEnglishWords().get(i), words.getTransWords().get(i), words.getNumberList().get(i)));
-			        	//data = FXCollections.observableArrayList(
-			        			//new Words(words.getEnglishWords().get(i), words.getTransWords().get(i), words.getNumberList().get(i))
-			        			//);
 			        }
-			        //tableView.setItems(data);
 			        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 	
-					//ObservableList<String> obvList = FXCollections.observableArrayList(words.getTransWords());
-					//ListView<String> listView = new ListView<String>(obvList);
-					//listView.setMaxSize(200, 160);
 					//Creating layout
 					VBox vBoxLayout = new VBox(10);
 					vBoxLayout.setStyle("-fx-border-color: black; -fx-font-size: 16;");
@@ -200,27 +187,8 @@ public class UI extends Application{
 			    }
 			});
 		// ChoiceBox 1 for Language choosing
-		String[] languageArray = { "Afrikaans", "Albanian", "Amharic", "Arabic", "Armenian", "Azerbaijani", "Basque",
-				"Belarusian", "Bengali", "Bosnian", "Bulgarian", "Catalan", "Cebuano", "Chinese (Simplified)",
-				"Chinese (Traditional)", "Corsican", "Croatian", "Czech", "Danish", "Dutch", "English", "Esperanto",
-				"Estonian", "Finnish", "French", "Frisian", "Galician", "Georgian", "German", "Greek", "Gujarati",
-				"Haitian Creole", "Hausa", "Hawaiian", "Hebrew", "Hindi", "Hmong", "Hungarian", "Icelandic", "Igbo",
-				"Indonesian", "Irish", "Italian", "Japanese", "Javanese", "Kannada", "Kazakh", "Khmer", "Kinyarwanda",
-				"Korean", "Kurdish", "Kyrgyz", "Lao", "Latin", "Latvian", "Lithuanian", "Luxembourgish", "Macedonian",
-				"Malagasy", "Malay", "Malayalam", "Maltese", "Maori", "Marathi", "Mongolian", "Myanmar (Burmese)",
-				"Nepali", "Norwegian", "Nyanja (Chichewa)", "Odia (Oriya)", "Pashto", "Persian", "Polish",
-				"Portuguese (Portugal, Brazil)", "Punjabi", "Romanian", "Russian", "Samoan", "Scots Gaelic", "Serbian",
-				"Sesotho", "Shona", "Sindhi", "Sinhala (Sinhalese)", "Slovak", "Slovenian", "Somali", "Spanish",
-				"Sundanese", "Swahili", "Swedish", "Tagalog (Filipino)", "Tajik", "Tamil", "Tatar", "Telugu", "Thai",
-				"Turkish", "Turkmen", "Ukrainian", "Urdu", "Uyghur", "Uzbek", "Vietnamese", "Welsh", "Xhosa", "Yiddish",
-				"Yoruba", "Zulu" };
-		String[] choiceLanguage = { "af", "sq", "am", "ar", "hy", "az", "eu", "be", "bn", "bs", "bg", "ca", "ceb",
-				"zh-CN", "zh-TW", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fi", "fr", "fy", "gl", "ka", "de",
-				"el", "gu", "ht", "ha", "haw", "iw", "hi", "hmn", "hu", "is", "ig", "id", "ga", "it", "ja", "jv", "kn",
-				"kk", "km", "rw", "ko", "ku", "ky", "lo", "la", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mt", "mi",
-				"mr", "mn", "my", "ne", "no", "ny", "or", "ps", "fa", "pl", "pt", "pa", "ro", "ru", "sm", "gd", "sr",
-				"st", "sn", "sd", "si", "sk", "sl", "so", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th",
-				"tr", "tk", "uk", "ur", "ug", "uz", "vi", "cy", "xh", "yi", "yo", "zu" };
+		String[] languageArray = { "Afrikaans", "Albanian", "Amharic", "Arabic", "Armenian", "Azerbaijani", "Basque","Belarusian", "Bengali", "Bosnian", "Bulgarian", "Catalan", "Cebuano", "Chinese (Simplified)","Chinese (Traditional)", "Corsican", "Croatian", "Czech", "Danish", "Dutch", "English", "Esperanto","Estonian", "Finnish", "French", "Frisian", "Galician", "Georgian", "German", "Greek", "Gujarati","Haitian Creole", "Hausa", "Hawaiian", "Hebrew", "Hindi", "Hmong", "Hungarian", "Icelandic", "Igbo","Indonesian", "Irish", "Italian", "Japanese", "Javanese", "Kannada", "Kazakh", "Khmer", "Kinyarwanda","Korean", "Kurdish", "Kyrgyz", "Lao", "Latin", "Latvian", "Lithuanian", "Luxembourgish", "Macedonian","Malagasy", "Malay", "Malayalam", "Maltese", "Maori", "Marathi", "Mongolian", "Myanmar (Burmese)","Nepali", "Norwegian", "Nyanja (Chichewa)", "Odia (Oriya)", "Pashto", "Persian", "Polish","Portuguese (Portugal, Brazil)", "Punjabi", "Romanian", "Russian", "Samoan", "Scots Gaelic", "Serbian","Sesotho", "Shona", "Sindhi", "Sinhala (Sinhalese)", "Slovak", "Slovenian", "Somali", "Spanish","Sundanese", "Swahili", "Swedish", "Tagalog (Filipino)", "Tajik", "Tamil", "Tatar", "Telugu", "Thai","Turkish", "Turkmen", "Ukrainian", "Urdu", "Uyghur", "Uzbek", "Vietnamese", "Welsh", "Xhosa", "Yiddish","Yoruba", "Zulu" };
+		String[] choiceLanguage = { "af", "sq", "am", "ar", "hy", "az", "eu", "be", "bn", "bs", "bg", "ca", "ceb","zh-CN", "zh-TW", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fi", "fr", "fy", "gl", "ka", "de","el", "gu", "ht", "ha", "haw", "iw", "hi", "hmn", "hu", "is", "ig", "id", "ga", "it", "ja", "jv", "kn","kk", "km", "rw", "ko", "ku", "ky", "lo", "la", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mt", "mi","mr", "mn", "my", "ne", "no", "ny", "or", "ps", "fa", "pl", "pt", "pa", "ro", "ru", "sm", "gd", "sr","st", "sn", "sd", "si", "sk", "sl", "so", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th","tr", "tk", "uk", "ur", "ug", "uz", "vi", "cy", "xh", "yi", "yo", "zu" };
 		// Adding in Languages in drop down
 		for(int i = 0; i <= languageArray.length-1; i++)
 		{
@@ -294,5 +262,5 @@ public class UI extends Application{
         myDialog.setScene(myDialogScene);
         myDialog.show();
     }
-	
+    	
 }
